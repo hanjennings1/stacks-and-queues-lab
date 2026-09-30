@@ -38,10 +38,10 @@ class Queue:
         if self.is_empty():
             return None
 
-        # Picking random person in line as winer
+        # Picking random person in line as winner
         winner = random.choice(self.items)
 
-        # Remove people at fron until the winner is at front
+        # Remove people at front until the winner is at front
         while not self.is_empty():
             customer = self.dequeue()
             if customer == winner:

@@ -1,101 +1,57 @@
 # Lab: Stacks and Queues  
-**Lab GitHub Repo**: [Stacks and Queues](https://github.com/learn-co-curriculum/stacks-and-queues-lab)
+**Completed Sept 30, 2026**
 
 ---
 
-## Overview
-In this lab, you’ll apply **stacks** and **queues** to solve two real-world challenges. First, you’ll implement a **parentheses validator** using a stack—a feature commonly used in compilers or formatting tools. Then, you'll simulate a **customer raffle system** using a queue, where entries are processed in the order received and a winner is selected.
+# Stacks and Queues Lab
 
-By focusing on **LIFO** (last-in, first-out) and **FIFO** (first-in, first-out) behavior, you’ll develop a stronger understanding of foundational data structures used in systems like parsers, schedulers, and task processors.
+This project uses two basic data structures to solve two small, real-world problems:
 
----
+- A **stack** (last in, first out) checks whether brackets in a string are balanced, the same kind of check code editors and compilers run on your code.
+- A **queue** (first in, first out) runs a customer raffle. Customers are kept in the order they arrived, a random winner is picked, and everyone up to and including the winner is removed from the line.
 
-## Task 1: Define the Problem
+## How to Run
 
-1. Implement a function that validates **balanced parentheses** using a stack.
-2. Create a **queue** that stores customer entries and:
-   - **Selects a random winner**.
-   - **Dequeues up to and including** the winner.
-3. Display the result of both operations clearly in your output.
+This project uses only Python's standard library, so there's nothing to install.
 
-**The Challenge**: Demonstrate your understanding of stack and queue behavior in common technical workflows.
+1. Clone the repository and move into the project folder:
 
----
+```
+   git clone https://github.com/hanjennings1/stacks-and-queues-lab.git
+   cd stacks-and-queues-lab
+```
 
-## Task 2: Determine the Design
+2. Run the tests:
 
-### Stack Functionality
+```
+   python test_structures.py
+```
 
-- **File**: `custom_stack.py`
-- **Function**:  
-  - `is_valid_parentheses(s: str) -> bool`  
-  - Returns `True` if the parentheses in the string are balanced.
+   On some systems you may need `python3` instead of `python`.
 
-### Queue Class Design
+The test output shows each step: the customers in the queue, the raffle winner, the customers still in line, and the result of each bracket check. All 5 tests pass.
 
-- **File**: `custom_queue.py`
-- **Class**: `Queue`
-- **Methods**:
-  - `enqueue(item)`  
-  - `dequeue()`  
-  - `peek()`  
-  - `is_empty()`  
-  - `select_and_announce_winner()` → Randomly selects a winner and dequeues everyone up to and including that customer.
+## Project Files
 
----
+- `custom_stack.py` contains `is_valid_parentheses(s)`, which uses a stack to check that `()`, `[]`, and `{}` are balanced and correctly nested.
+- `custom_queue.py` contains the `Queue` class with `enqueue`, `dequeue`, `peek`, `is_empty`, and `select_and_announce_winner`.
+- `test_structures.py` contains the unit tests for both files.
 
-## Task 3: Develop, Test, and Refine the Code
+## How It Works
 
-### Set Up
+### Balanced brackets (stack)
 
-#### Fork and Clone
-1. Go to the provided **GitHub repository link**.  
-2. Fork the repository to your GitHub account.  
-3. Clone the forked repository to your local machine.
+The function reads the string one character at a time. Each opening bracket is added to the top of the stack. When a closing bracket appears, the function removes the top item from the stack and checks that it's the matching opener. The string is invalid if a closing bracket has nothing to match, if it's matched with the wrong opener, or if any opening brackets are left over at the end.
 
-#### Open and Run
-1. Open the project in your Python-friendly IDE (VSCode, PyCharm, etc.).  
+For example, `{[()]}` is valid because each pair is fully nested inside the next. `([)]` is invalid even though every bracket has a partner, because the `[` was opened last but the `)` tries to close first.
 
-### Implementation Details
+### Customer raffle (queue)
 
-1. **Starter code uses `pass`**:
-   - You’ll see `pass` in method bodies—this is a Python placeholder.
-   - Replace it with your actual code to make each method work.
+Customers join the back of the line with `enqueue` and leave from the front with `dequeue`. `select_and_announce_winner` picks a random customer who is currently in line, then removes customers from the front one at a time until the winner has been removed. It prints and returns the winner's name, and everyone who was behind the winner stays in line.
 
-2. **Build each file**:
-   - Implement `Queue` methods as described above.
-   - Write the stack validator function for balanced parentheses.
+For example, if Customer #4 wins in a line of 20, customers #1 through #4 are removed, and #5 through #20 remain.
 
-3. **Run Tests**:
-   - Execute the provided test file with:
-     ```bash
-     python test_structures.py
-     ```
-   - Ensure all tests pass before submission.
+## Built With
 
-4. **Push and Merge**:
-   - Commit your work regularly.
-   - Push to your feature branch.
-   - Open a Pull Request (PR).
-   - Merge to `main` after review.
-
----
-
-## Task 4: Document and Maintain
-
-### Best Practice Documentation Steps
-
-- **Comment your logic**: Especially around recursive or loop-based behavior.
-- **Explain your thinking** in your function definitions.
-- **README**: Make sure your repo’s README includes how to run the project.
-- **Clean Up**:
-  - Remove debug prints.
-  - Ensure your `.gitignore` ignores `.pyc`, `__pycache__`, etc.
-
----
-
-## Submission
-Once your lab is complete and all tests are passing:
-
-- Push your code to GitHub.
-- Submit the link to your repo through **Canvas using CodeGrade**.
+- Python 3
+- `unittest` and `random` from the standard library
