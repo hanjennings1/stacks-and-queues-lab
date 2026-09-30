@@ -27,11 +27,25 @@ class Queue:
         # True when no one is in line/length=0
         return len(self.items) == 0
 
+
     def select_and_announce_winner(self):
         """
         Randomly selects a winner from the queue.
         Dequeues all items up to and including the winner.
         Returns the name of the winning customer.
         """
-        # TODO: Implement winner selection and dequeue process
-        pass
+        # Nobody in line: no winner
+        if self.is_empty():
+            return None
+
+        # Picking random person in line as winer
+        winner = random.choice(self.items)
+
+        # Remove people at fron until the winner is at front
+        while not self.is_empty():
+            customer = self.dequeue()
+            if customer == winner:
+                break
+
+        print(f"The winner is {winner}!")
+        return winner
